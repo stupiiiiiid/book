@@ -1,0 +1,647 @@
+/* =============================================
+   MEMORIES BOOK — Mobile-First Styles
+   ============================================= */
+
+/* --- Reset & Base --- */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Cormorant Garamond', 'Georgia', serif;
+    background: #FFFDD0;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* --- App Container --- */
+.app {
+    width: 100%;
+    height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background: #FFFDD0;
+}
+
+/* Black dust / grain overlay */
+.app::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='512' height='512' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* --- Floating Particles --- */
+.particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(218, 182, 133, 0.6) 0%, rgba(218, 182, 133, 0) 70%);
+    animation: floatUp linear infinite;
+    pointer-events: none;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(100vh) scale(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-20vh) scale(1);
+        opacity: 0;
+    }
+}
+
+/* --- Book Wrapper --- */
+.book-wrapper {
+    position: relative;
+    width: 88vw;
+    max-width: 420px;
+    height: 60vh;
+    max-height: 520px;
+    perspective: 1800px;
+    z-index: 10;
+}
+
+/* --- The Book --- */
+.book {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+/* --- Individual Page --- */
+.page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform-origin: left center;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1.000);
+    z-index: 1;
+    cursor: grab;
+    will-change: transform;
+}
+
+.page.active {
+    z-index: 13;
+}
+
+.page.flipped {
+    transform: rotateY(-180deg);
+    z-index: 2;
+}
+
+.page.flipping {
+    z-index: 14;
+}
+
+/* --- Front & Back of Page --- */
+.page-front, .page-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 4px 12px 12px 4px;
+    overflow: hidden;
+}
+
+.page-front {
+    display: flex;
+    flex-direction: row;
+}
+
+.page-back {
+    transform: rotateY(180deg);
+}
+
+/* --- Paper Texture (back of page) --- */
+.page-paper {
+    width: 100%;
+    height: 100%;
+    background: 
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 27px,
+            rgba(139, 115, 85, 0.06) 27px,
+            rgba(139, 115, 85, 0.06) 28px
+        ),
+        linear-gradient(135deg, #f5edd6 0%, #efe4c8 30%, #f0e6ce 60%, #ece0c4 100%);
+    box-shadow: inset 3px 0 8px rgba(0, 0, 0, 0.08);
+    border-radius: 12px 4px 4px 12px;
+}
+
+/* =============================================
+   COVER PAGE — Scrapbook / Craft Style
+   ============================================= */
+.cover .page-front {
+    background: 
+        linear-gradient(145deg, #d4b896 0%, #c9a97e 30%, #d1b48c 50%, #c4a478 80%, #bfa073 100%);
+    border: none;
+    border-left: 6px solid #b8956a;
+    border-radius: 4px 12px 12px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 
+        inset 0 0 40px rgba(0, 0, 0, 0.08),
+        inset 0 0 15px rgba(180, 150, 100, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Kraft paper texture overlay */
+.cover .page-front::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='60' height='60' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+    opacity: 0.8;
+    pointer-events: none;
+}
+
+/* Spine shadow */
+.cover .page-front::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 18px;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(0,0,0,0.15) 0%, rgba(139, 111, 71, 0.08) 40%, transparent 100%);
+    pointer-events: none;
+}
+
+.cover-design {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    padding: 30px 20px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Scattered decorations */
+.cover-decor {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.decor {
+    position: absolute;
+    object-fit: contain;
+    filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.1));
+}
+
+/* Butterfly — top right */
+.decor-1 {
+    top: 8%;
+    left: 12%;
+    width: 50px;
+    height: auto;
+    transform: rotate(-10deg);
+    opacity: 0.85;
+}
+
+/* Hearts drawing — bottom left */
+.decor-2 {
+    top: 10%;
+    right: 10%;
+    width: 55px;
+    height: auto;
+    transform: rotate(8deg);
+    opacity: 0.75;
+}
+
+.decor-3 {
+    bottom: 28%;
+    right: 12%;
+    width: 45px;
+    height: auto;
+    transform: rotate(5deg) scaleX(-1);
+    opacity: 0.8;
+}
+
+.decor-4 {
+    bottom: 20%;
+    left: 14%;
+    width: 50px;
+    height: auto;
+    transform: rotate(-6deg);
+    opacity: 0.7;
+}
+
+/* Cover title — handwritten style */
+.cover-title {
+    font-family: 'Great Vibes', cursive;
+    font-size: 52px;
+    font-weight: 400;
+    color: #2c1810;
+    text-shadow: 
+        2px 2px 0px rgba(0, 0, 0, 0.15),
+        1px 1px 0px rgba(0, 0, 0, 0.1);
+    line-height: 1.1;
+    margin-bottom: 8px;
+    position: relative;
+}
+
+/* Flower image below title */
+.cover-flower-img {
+    width: 80px;
+    height: auto;
+    opacity: 0.75;
+    margin-bottom: 16px;
+    filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.08));
+    border-radius: 4px;
+}
+
+/* Label badge — "Special Moments Together" */
+.cover-label {
+    background: #3d3d3d;
+    border-radius: 4px;
+    padding: 10px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+    transform: rotate(-2deg);
+}
+
+.label-top {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 10px;
+    color: #e0d5c5;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+.label-main {
+    font-family: 'Great Vibes', cursive;
+    font-size: 24px;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.label-bottom {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 9px;
+    color: #e0d5c5;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+}
+
+.cover-swipe-hint {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    font-style: italic;
+    color: rgba(60, 40, 20, 0.45);
+    letter-spacing: 2px;
+    animation: pulseHint 2.5s ease-in-out infinite;
+    white-space: nowrap;
+}
+
+@keyframes pulseHint {
+    0%, 100% { opacity: 0.4; transform: translateX(-50%) scale(1); }
+    50% { opacity: 0.8; transform: translateX(-50%) scale(1.03); }
+}
+
+/* =============================================
+   INNER PAGES (1-12)
+   ============================================= */
+
+/* Left blank area (spine side) */
+.left-blank {
+    width: 12%;
+    min-width: 30px;
+    height: 100%;
+    background: 
+        linear-gradient(90deg, 
+            rgba(180, 160, 130, 0.25) 0%, 
+            rgba(200, 180, 150, 0.08) 60%, 
+            transparent 100%);
+    position: relative;
+    flex-shrink: 0;
+}
+
+/* Fold shadow on the left edge */
+.left-blank::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    background: rgba(139, 115, 85, 0.12);
+}
+
+/* Right content area */
+.right-content {
+    flex: 1;
+    padding: 20px 28px 30px 28px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: 
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 27px,
+            rgba(139, 115, 85, 0.05) 27px,
+            rgba(139, 115, 85, 0.05) 28px
+        ),
+        linear-gradient(135deg, #faf4e4 0%, #f5edd6 30%, #f7f0dc 60%, #f2ebd5 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Prevent scroll-through on the right content */
+.right-content::-webkit-scrollbar {
+    width: 0px;
+}
+
+/* Page number */
+.pg-num {
+    display: block;
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    color: #1a1a1a;
+    font-style: italic;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+/* Page heading */
+.right-content h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: #3d2b1a;
+    margin-bottom: 10px;
+    line-height: 1.3;
+}
+
+/* Divider */
+.divider {
+    width: 50px;
+    height: 2px;
+    background: linear-gradient(90deg, #c4a265, rgba(196, 162, 101, 0.2));
+    margin-bottom: 18px;
+    border-radius: 2px;
+}
+
+/* Paragraph text */
+.right-content p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11.5px;
+    line-height: 1.7;
+    color: #4a3728;
+    margin-bottom: 10px;
+    text-align: left;
+    word-spacing: 2px;
+}
+
+/* Blockquote */
+.right-content blockquote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: #6b5740;
+    border-left: 3px solid rgba(196, 162, 101, 0.4);
+    padding: 8px 0 8px 14px;
+    margin: 10px 0 14px 0;
+    line-height: 1.6;
+    background: rgba(196, 162, 101, 0.05);
+    border-radius: 0 4px 4px 0;
+}
+
+/* Doodle / emoji decoration */
+.doodle {
+    margin-top: auto;
+    padding-top: 15px;
+    font-size: 28px;
+    text-align: center;
+    opacity: 0.7;
+    filter: grayscale(20%);
+}
+
+/* End mark on last page */
+.end-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-style: italic;
+    color: #9a8060;
+    text-align: center;
+    margin-top: 12px;
+    letter-spacing: 6px;
+}
+
+/* Last page special styling */
+.last-page h2 {
+    text-align: center;
+}
+.last-page .divider {
+    margin-left: auto;
+    margin-right: auto;
+}
+.last-page p {
+    text-align: center;
+}
+
+/* =============================================
+   PAGE SHADOWS & DEPTH
+   ============================================= */
+
+/* Book shadow base */
+.book-wrapper::after {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: 10%;
+    right: 5%;
+    height: 20px;
+    background: radial-gradient(ellipse, rgba(0,0,0,0.35) 0%, transparent 70%);
+    filter: blur(6px);
+    z-index: -1;
+}
+
+/* Page stack effect — subtle bottom pages visible */
+.book::before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 2px;
+    width: calc(100% - 2px);
+    height: calc(100% - 3px);
+    background: #e8dfc8;
+    border-radius: 4px 12px 12px 4px;
+    z-index: 0;
+    box-shadow: 
+        2px 2px 0 #ddd4bb,
+        4px 4px 0 #d3cab0;
+}
+
+/* Front face shadow when page is being turned */
+.page.flipping .page-front {
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+}
+
+/* =============================================
+   PAGE INDICATOR
+   ============================================= */
+.page-indicator {
+    position: fixed;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(30, 22, 14, 0.75);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 8px 22px;
+    border-radius: 20px;
+    border: 1px solid rgba(196, 162, 101, 0.2);
+    z-index: 100;
+}
+
+.page-indicator span {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    color: #c4a265;
+    letter-spacing: 2px;
+    font-style: italic;
+}
+
+/* =============================================
+   SWIPING VISUAL FEEDBACK
+   ============================================= */
+.page.swiping {
+    transition: none !important;
+}
+
+/* =============================================
+   PAGE ENTRANCE ANIMATIONS
+   ============================================= */
+@keyframes bookEntrance {
+    0% {
+        opacity: 0;
+        transform: scale(0.85) translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.book-wrapper {
+    animation: bookEntrance 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Stagger z-index for pages (higher page number = lower z-index so cover is on top) */
+.page[data-page="0"]  { z-index: 13; }
+.page[data-page="1"]  { z-index: 12; }
+.page[data-page="2"]  { z-index: 11; }
+.page[data-page="3"]  { z-index: 10; }
+.page[data-page="4"]  { z-index: 9; }
+.page[data-page="5"]  { z-index: 8; }
+.page[data-page="6"]  { z-index: 7; }
+.page[data-page="7"]  { z-index: 6; }
+.page[data-page="8"]  { z-index: 5; }
+.page[data-page="9"]  { z-index: 4; }
+.page[data-page="10"] { z-index: 3; }
+.page[data-page="11"] { z-index: 2; }
+.page[data-page="12"] { z-index: 1; }
+
+/* Flipped pages go behind everything */
+.page.flipped {
+    z-index: 0 !important;
+}
+
+/* Currently active page (about to flip) should be on top */
+.page.active {
+    z-index: 14 !important;
+}
+
+/* Page currently animating should be topmost */
+.page.flipping {
+    z-index: 15 !important;
+}
+
+/* =============================================
+   AMBIENT GLOW
+   ============================================= */
+.book-wrapper::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    left: -30px;
+    right: -30px;
+    bottom: -30px;
+    background: radial-gradient(ellipse at center, rgba(196, 162, 101, 0.06) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+    animation: ambientPulse 6s ease-in-out infinite;
+}
+
+@keyframes ambientPulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
