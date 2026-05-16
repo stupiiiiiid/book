@@ -30,10 +30,12 @@ html, body {
     justify-content: center;
     position: relative;
     overflow: hidden;
-    background: #FFFDD0;
+    background: 
+        radial-gradient(ellipse at 50% 40%, rgba(218, 182, 133, 0.15) 0%, transparent 60%),
+        #FFFDD0;
 }
 
-/* Black dust / grain overlay */
+/* Subtle grain overlay */
 .app::after {
     content: '';
     position: absolute;
@@ -83,15 +85,16 @@ html, body {
     }
 }
 
-/* --- Book Wrapper --- */
+/* --- Book Wrapper — Mobile Optimized --- */
 .book-wrapper {
     position: relative;
-    width: 88vw;
+    width: 92vw;
     max-width: 420px;
-    height: 60vh;
-    max-height: 520px;
+    height: 70vh;
+    max-height: 560px;
     perspective: 1800px;
     z-index: 10;
+    animation: bookEntrance 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 /* --- The Book --- */
@@ -170,7 +173,7 @@ html, body {
 }
 
 /* =============================================
-   COVER PAGE — Scrapbook / Craft Style
+   COVER PAGE — Scrapbook / Craft Style (Enhanced)
    ============================================= */
 .cover .page-front {
     background: 
@@ -183,7 +186,8 @@ html, body {
     justify-content: center;
     box-shadow: 
         inset 0 0 40px rgba(0, 0, 0, 0.08),
-        inset 0 0 15px rgba(180, 150, 100, 0.2);
+        inset 0 0 15px rgba(180, 150, 100, 0.2),
+        0 4px 20px rgba(0, 0, 0, 0.12);
     position: relative;
     overflow: hidden;
 }
@@ -226,7 +230,7 @@ html, body {
     z-index: 2;
 }
 
-/* Scattered decorations */
+/* Scattered decorations — with float animation */
 .cover-decor {
     position: absolute;
     top: 0;
@@ -239,10 +243,10 @@ html, body {
 .decor {
     position: absolute;
     object-fit: contain;
-    filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.1));
+    filter: drop-shadow(1px 1px 3px rgba(0,0,0,0.12));
+    transition: transform 0.5s ease;
 }
 
-/* Butterfly — top right */
 .decor-1 {
     top: 8%;
     left: 12%;
@@ -250,9 +254,9 @@ html, body {
     height: auto;
     transform: rotate(-10deg);
     opacity: 0.85;
+    animation: gentleFloat 6s ease-in-out infinite;
 }
 
-/* Hearts drawing — bottom left */
 .decor-2 {
     top: 10%;
     right: 10%;
@@ -260,6 +264,7 @@ html, body {
     height: auto;
     transform: rotate(8deg);
     opacity: 0.75;
+    animation: gentleFloat 7s ease-in-out infinite 1s;
 }
 
 .decor-3 {
@@ -269,6 +274,7 @@ html, body {
     height: auto;
     transform: rotate(5deg) scaleX(-1);
     opacity: 0.8;
+    animation: gentleFloat 5.5s ease-in-out infinite 0.5s;
 }
 
 .decor-4 {
@@ -278,9 +284,15 @@ html, body {
     height: auto;
     transform: rotate(-6deg);
     opacity: 0.7;
+    animation: gentleFloat 6.5s ease-in-out infinite 1.5s;
 }
 
-/* Cover title — handwritten style */
+@keyframes gentleFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+/* Cover title — handwritten style with subtle shimmer */
 .cover-title {
     font-family: 'Great Vibes', cursive;
     font-size: 52px;
@@ -288,10 +300,17 @@ html, body {
     color: #2c1810;
     text-shadow: 
         2px 2px 0px rgba(0, 0, 0, 0.15),
-        1px 1px 0px rgba(0, 0, 0, 0.1);
+        1px 1px 0px rgba(0, 0, 0, 0.1),
+        0 0 20px rgba(196, 162, 101, 0.15);
     line-height: 1.1;
     margin-bottom: 8px;
     position: relative;
+    animation: titleFadeIn 2s ease-out 0.8s both;
+}
+
+@keyframes titleFadeIn {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
 }
 
 /* Flower image below title */
@@ -304,17 +323,27 @@ html, body {
     border-radius: 4px;
 }
 
-/* Label badge — "Special Moments Together" */
+/* Label badge — "Special Moments Together" with glass effect */
 .cover-label {
-    background: #3d3d3d;
-    border-radius: 4px;
-    padding: 10px 18px;
+    background: rgba(40, 40, 40, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 8px;
+    padding: 12px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 2px;
-    box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+    box-shadow: 
+        2px 2px 8px rgba(0,0,0,0.25),
+        inset 0 1px 0 rgba(255,255,255,0.05);
     transform: rotate(-2deg);
+    animation: labelFadeIn 2s ease-out 1.2s both;
+}
+
+@keyframes labelFadeIn {
+    0% { opacity: 0; transform: rotate(-2deg) scale(0.9); }
+    100% { opacity: 1; transform: rotate(-2deg) scale(1); }
 }
 
 .label-top {
@@ -360,7 +389,7 @@ html, body {
 }
 
 /* =============================================
-   INNER PAGES (1-12)
+   INNER PAGES (1-12) — Enhanced
    ============================================= */
 
 /* Left blank area (spine side) */
@@ -391,7 +420,7 @@ html, body {
 /* Right content area */
 .right-content {
     flex: 1;
-    padding: 20px 28px 30px 28px;
+    padding: 18px 22px 28px 22px;
     overflow-y: auto;
     overflow-x: hidden;
     background: 
@@ -413,6 +442,17 @@ html, body {
 /* Prevent scroll-through on the right content */
 .right-content::-webkit-scrollbar {
     width: 0px;
+}
+
+/* Decorative drop cap on first paragraph */
+.right-content p:first-of-type::first-letter {
+    font-family: 'Great Vibes', cursive;
+    font-size: 32px;
+    float: left;
+    line-height: 0.75;
+    margin-right: 3px;
+    margin-top: 5px;
+    color: #8b5a2b;
 }
 
 /* Page number */
@@ -508,7 +548,7 @@ html, body {
 }
 
 /* =============================================
-   PAGE SHADOWS & DEPTH
+   PAGE SHADOWS & DEPTH (Enhanced)
    ============================================= */
 
 /* Book shadow base */
@@ -546,31 +586,6 @@ html, body {
 }
 
 /* =============================================
-   PAGE INDICATOR
-   ============================================= */
-.page-indicator {
-    position: fixed;
-    bottom: 18px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(30, 22, 14, 0.75);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 8px 22px;
-    border-radius: 20px;
-    border: 1px solid rgba(196, 162, 101, 0.2);
-    z-index: 100;
-}
-
-.page-indicator span {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 13px;
-    color: #c4a265;
-    letter-spacing: 2px;
-    font-style: italic;
-}
-
-/* =============================================
    SWIPING VISUAL FEEDBACK
    ============================================= */
 .page.swiping {
@@ -589,10 +604,6 @@ html, body {
         opacity: 1;
         transform: scale(1) translateY(0);
     }
-}
-
-.book-wrapper {
-    animation: bookEntrance 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 /* Stagger z-index for pages (higher page number = lower z-index so cover is on top) */
@@ -644,4 +655,45 @@ html, body {
 @keyframes ambientPulse {
     0%, 100% { opacity: 0.5; }
     50% { opacity: 1; }
+}
+
+/* =============================================
+   MOBILE BREAKPOINTS
+   ============================================= */
+@media (max-height: 680px) {
+    .book-wrapper {
+        height: 76vh;
+        max-height: none;
+    }
+    .right-content {
+        padding: 14px 18px 22px 18px;
+    }
+    .right-content p {
+        font-size: 11px;
+        line-height: 1.6;
+        margin-bottom: 6px;
+    }
+    .cover-title { font-size: 44px; }
+}
+
+@media (max-height: 580px) {
+    .book-wrapper {
+        height: 82vh;
+        width: 94vw;
+    }
+    .right-content {
+        padding: 10px 14px 18px 14px;
+    }
+    .right-content p {
+        font-size: 10.5px;
+        line-height: 1.55;
+    }
+    .cover-title { font-size: 38px; }
+}
+
+@media (min-height: 800px) {
+    .book-wrapper {
+        height: 65vh;
+        max-height: 560px;
+    }
 }
